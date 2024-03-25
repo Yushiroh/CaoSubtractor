@@ -44,8 +44,8 @@ void setup() {
 
   for(int i=0;i<8;i++){
     pinMode(segPins[i],OUTPUT);
-    digitalWrite(segPins[i], HIGH);
   }
+  segmentDisplay(10-1);
   pinMode(button,INPUT);
   pinMode(regLed,OUTPUT);
 }
@@ -64,18 +64,17 @@ void loop() {
     segmentDisplay(msg.toInt()-1);
   }else{
     int butState = digitalRead(button);
-    delay(100);
+    delay(200);
 
     if(butState == 1 and !(var1State)){
       digitalWrite(regLed, HIGH);
       storedVar = currVar;
       var1State = true;
-      for(int i=0;i<8;i++){
-        digitalWrite(segPins[i], HIGH);
-      }
+      segmentDisplay(10-1);
     }else if(butState == 1 and var1State){
       var1State = false;
       int finalAns = storedVar - currVar;
+      finalAns = finalAns == 0 ? 10 : finalAns;
       Serial.println(finalAns);
       segmentDisplay(abs(finalAns) - 1);
       digitalWrite(regLed,LOW);
