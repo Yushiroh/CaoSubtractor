@@ -1,0 +1,37 @@
+#include <Arduino.h>
+#include <Keypad.h>
+
+const byte ROWS = 4; //four rows
+const byte COLS = 3; //three columns
+char keys[ROWS][COLS] = {
+{'#','0','*'},
+{'9','8','7'},
+{'6','5','4'},
+{'3','2','1'}
+};
+byte rowPins[ROWS] = {5, 4, 3, 2}; //connect to the row pinouts of the kpd
+byte colPins[COLS] = {8, 7, 6}; //connect to the column pinouts of the kpd
+
+Keypad kpd = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
+
+unsigned long loopCount;
+unsigned long startTime;
+String msg;
+
+
+void setup() {
+    Serial.begin(9600);
+    loopCount = 0;
+    startTime = millis();
+    msg = "";
+}
+
+
+void loop() {
+  char customKey = kpd.getKey();
+  
+  if (customKey){
+    Serial.println(customKey);
+  }
+
+} 
